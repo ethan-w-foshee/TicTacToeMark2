@@ -22,6 +22,9 @@ let board = [
 // using let because the variable is expected to change from 'X' to 'O' and back
 let playerTurn = 'X';
 
+// assigns a play count
+
+
 // is a function that print the current status of the board using the variable - board
 const printBoard = () => {
   console.log('   0  1  2');
@@ -32,25 +35,73 @@ const printBoard = () => {
   console.log('2 ' + board[2].join(' | '));
 }
 
-const horizontalWin = () => {
-  // Your code here to check for horizontal wins
-}
-
 const verticalWin = () => {
   // Your code here to check for vertical wins
+  console.log("Vertical Check.")
+  if ((board[0][0] == board[1][0] && board[0][0] == board[2][0]) ||
+    (board[0][1] == board[1][1] && board[0][1] == board[2][1]) || 
+    (board[0][2] == board[1][2] && board[0][2] == board[2][2])) {
+      console.log("Vertical Win!")
+    return true;
+  }
+  else {
+    console.log("Vertical Fail.")
+    return false;
+  }
+}
+
+const horizontalWin = () => {
+  // Your code here to check for horizontal wins
+  console.log("Horizontal Check.")
+  if ((board[0][0] == board[0][1] && board[0][0] == board[0][2]) ||
+    (board[1][0] == board[1][1] && board[1][0] == board[1][2]) ||
+    (board[2][0] == board[2][1] && board[2][0] == board[2][2])) {
+      console.log("Horizontal Win!")
+      return true;
+  }
+  else {
+    console.log("Horizontal Fail.")
+    return false;
+  }
 }
 
 const diagonalWin = () => {
   // Your code here to check for diagonal wins
+  console.log("Diagonal Check.")
+  if ((board[0][0] == board[1][1] && board[0][0] == board[2][2]) || 
+    (board[0][2] == board[1][1] && board[0][2] == board[2][0])) {
+      console.log("Diagonal Win!")
+    return true;
+  }
+  else {
+    console.log("Diagonal Fail.")
+    return false;
+  }
 }
 
 const checkForWin = () => {
   // Your code here call each of the check for types of wins
+  if (verticalWin() || diagonalWin() || horizontalWin()) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function switchPlayers() {
+  if (playerTurn == 'X') {
+    playerTurn = 'O'
+  }
+  else {
+    playerTurn = 'X'
+  }
 }
 
 const ticTacToe = (row, column) => {
-  // Your code here to place a marker on the board
-  // then check for a win
+  // console.log(board)
+  board[row][column] = playerTurn
+  switchPlayers();
 }
 
 const getPrompt = () => {
