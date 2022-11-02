@@ -14,7 +14,7 @@ let board = [
   ['','',''],
   ['','','']
 ];
-
+let playCount = 0;
 // is called when a square is clicked. "this" = element here
 const handleClick = (element) => {
   // check to see if the square clicked has anything in it, if not continue
@@ -22,6 +22,12 @@ const handleClick = (element) => {
   if(!document.getElementById(element.id).innerHTML){
     addMarker(element.id)
     updateBoard(element.id)
+    if(currentMarker === 'X'){
+      element.style.backgroundColor = 'red'
+    }
+    else{
+      element.style.backgroundColor = 'cyan'
+    }
     checkForWin()
   }
 }
@@ -30,12 +36,12 @@ const addMarker = (id) => {
   console.log(`We'll place a mark on square: ${id}`)
   // @TODO, Mix & Match. 
   // You will need the following pieces:
-  
+  document.getElementById(id).innerHTML = currentMarker
   // = currentMarker
   // .getElementById(id)
   // document
   // .innerHTML 
-  
+
   // Arrange the above pieces into a single line of code
   // to add an X or O to the board to the DOM so it can be scene on the screen.
 }
@@ -50,30 +56,71 @@ const updateBoard = (id) => {
   console.log(board)
 
   // @TODO, Your code here: use the above information to change the board variable(array of arrays)
+  board[row][column] = currentMarker
   // HINT: in your browser open up the dev tools -> console
+
+  document.getElementById('currentPlayer').innerHTML = currentMarker;
 }
 
 const checkForWin = () => {
   // calls each checkForWin possibility and if any are true gives a page alert,
-  if(horizontalWin() || verticalWin() || diagonalWin()) {
+  if((horizontalWin() || verticalWin() || diagonalWin()) && playCount >= 4) {
     // **BONUS** you could make the dismissal of this alert window reset the board...
     window.alert(`Player ${currentMarker} won!`)
+    resetBoard();
+  }
+  else if (playCount == 8) {
+    window.alert(`Tie game!`)
+    resetBoard();
   } else {
     // if no win, change the marker from X to O, or O to X for the next player.
     changeMarker()
+    playCount++
+  }
+}
+
+const verticalWin = () => {
+  // Your code here to check for vertical wins
+  console.log("Vertical Check.")
+  if (((board[0][0] == board[1][0] && board[0][0] == board[2][0]) && board[0][0] != '') ||
+    ((board[0][1] == board[1][1] && board[0][1] == board[2][1]) && board[1][1] != '') || 
+    ((board[0][2] == board[1][2] && board[0][2] == board[2][2]) && board[2][2] != '')) {
+      console.log("Vertical Win!")
+    return true;
+  }
+  else {
+    console.log("Vertical Fail.")
+    return false;
   }
 }
 
 const horizontalWin = () => {
-  // @TODO, Your code here: to check for horizontal wins
-}
-
-const verticalWin = () => {
-  // @TODO, Your code here: to check for vertical wins
+  // Your code here to check for horizontal wins
+  console.log("Horizontal Check.")
+  if (((board[0][0] == board[0][1] && board[0][0] == board[0][2]) && board[0][0] != '') ||
+    ((board[1][0] == board[1][1] && board[1][0] == board[1][2]) && board[1][1] != '') ||
+    ((board[2][0] == board[2][1] && board[2][0] == board[2][2]) && board[2][2] != '')) {
+      console.log("Horizontal Win!")
+      return true;
+  }
+  else {
+    console.log("Horizontal Fail.")
+    return false;
+  }
 }
 
 const diagonalWin = () => {
-  // @TODO, Your code here: to check for diagonal wins
+  // Your code here to check for diagonal wins
+  console.log("Diagonal Check.")
+  if (((board[0][0] == board[1][1] && board[0][0] == board[2][2]) && board[0][0] != '') || 
+    ((board[0][2] == board[1][1] && board[0][2] == board[2][0])  && board[1][1] != '')) {
+      console.log("Diagonal Win!")
+    return true;
+  }
+  else {
+    console.log("Diagonal Fail.")
+    return false;
+  }
 }
 
 const changeMarker = () => {
@@ -92,9 +139,17 @@ const resetBoard = () => {
   for (i=0; i<squares.length; i++) {
     console.log(squares[i])
     squares[i].innerHTML = null
+    squares[i].style.backgroundColor = null
   }
   
   // @TODO, Your code here: make sure to reset the array of arrays to empty for a new game
+  board = [
+    ['','',''],
+    ['','',''],
+    ['','','']
+  ]
+
+  playCount = 0;
 }
 
 // **BONUSES**

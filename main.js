@@ -23,7 +23,7 @@ let board = [
 let playerTurn = 'X';
 
 // assigns a play count
-
+let playCount = 0;
 
 // is a function that print the current status of the board using the variable - board
 const printBoard = () => {
@@ -101,7 +101,21 @@ function switchPlayers() {
 const ticTacToe = (row, column) => {
   // console.log(board)
   board[row][column] = playerTurn
-  switchPlayers();
+  if (playCount < 4) {
+    switchPlayers();
+    playCount++;
+  }
+  else {
+    console.log(playCount)
+    checkForWin();
+    if (checkForWin()){
+      console.log("Game is over.")
+      stop();
+    }
+    else {
+      switchPlayers();
+    }
+  }
 }
 
 const getPrompt = () => {
